@@ -41,43 +41,45 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup Audio Autoplay & Loop
     const audio = document.getElementById('bgMusic');
     const playBtn = document.getElementById('playAudioBtn');
-    audio.src = config.page1Audio;
-    audio.loop = true; // Memastikan lagu berulang terus-menerus
 
-    // Fungsi untuk mencoba memutar audio
-    function playAudio() {
-        audio.play().then(() => {
-            if (playBtn) playBtn.textContent = '⏸ Pause Music';
-        }).catch(error => {
-            console.log("Autoplay diblokir browser, menunggu interaksi pengguna...", error);
-        });
-    }
+    if (audio) {
+        audio.src = config.page1Audio;
+        audio.loop = true;
 
-    // 1. Coba putar otomatis saat halaman dimuat
-    playAudio();
+        function playAudio() {
+            audio.play().then(() => {
+                if (playBtn) playBtn.textContent = '⏸ Pause Music';
+            }).catch(error => {
+                console.log("Autoplay diblokir browser, menunggu interaksi pengguna...");
+            });
+        }
 
-    // 2. Fallback: Putar otomatis saat pengguna pertama kali mengklik area mana saja di layar
-    function enableAutoplayOnInteraction() {
+        // Coba autoplay saat awal muat
         playAudio();
-        document.removeEventListener('click', enableAutoplayOnInteraction);
-        document.removeEventListener('touchstart', enableAutoplayOnInteraction);
-    }
 
-    document.addEventListener('click', enableAutoplayOnInteraction);
-    document.addEventListener('touchstart', enableAutoplayOnInteraction);
+        // Autoplay saat pengguna pertama kali berinteraksi (klik/tap layar)
+        function enableAutoplayOnInteraction() {
+            playAudio();
+            document.removeEventListener('click', enableAutoplayOnInteraction);
+            document.removeEventListener('touchstart', enableAutoplayOnInteraction);
+        }
 
-    // Toggle manual dari tombol audio
-    if (playBtn) {
-        playBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Agar tidak bentrok dengan event click document
-            if (audio.paused) {
-                audio.play();
-                playBtn.textContent = '⏸ Pause Music';
-            } else {
-                audio.pause();
-                playBtn.textContent = '🎵 Play Music';
-            }
-        });
+        document.addEventListener('click', enableAutoplayOnInteraction);
+        document.addEventListener('touchstart', enableAutoplayOnInteraction);
+
+        // Toggle manual dari tombol audio
+        if (playBtn) {
+            playBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (audio.paused) {
+                    audio.play();
+                    playBtn.textContent = '⏸ Pause Music';
+                } else {
+                    audio.pause();
+                    playBtn.textContent = '🎵 Play Music';
+                }
+            });
+        }
     }
 
     // 4. Gift Box Interaction
