@@ -381,10 +381,6 @@ h1, h2, h3 { font-family: var(--font-heading); }
         display: none !important;
     }
 
-    #audioToggle {
-        display: none !important;
-    }
-
     .corner-char {
         width: 65px !important; /* Perkecil ukuran gambar */
         opacity: 0.85; /* Dibuat sedikit transparan biar estetik */
