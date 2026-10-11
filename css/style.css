@@ -103,8 +103,8 @@ h1, h2, h3 { font-family: var(--font-heading); }
 
 /* ================= CORNER CHARACTERS ================= */
 .corner-char {
-    position: fixed;
-    z-index: 50;
+    position: absolute;
+    z-index: 20;
     pointer-events: none;
     animation: floating 3s ease-in-out infinite;
     filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
@@ -117,7 +117,7 @@ h1, h2, h3 { font-family: var(--font-heading); }
 
 @keyframes floating {
     0% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-8px); }
     100% { transform: translateY(0); }
 }
 
@@ -376,12 +376,40 @@ h1, h2, h3 { font-family: var(--font-heading); }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .glow-text { font-size: 2.5rem; }
-    .photos-section { flex-direction: column; align-items: center; }
-    .corner-char { width: 85px !important; }
-    .hanging-ornaments { height: 100px; }
-}
+    /* Perkecil dan atur ulang posisi karakter di smartphone */
+    .corner-char {
+        width: 65px !important; /* Perkecil ukuran gambar */
+        opacity: 0.85; /* Dibuat sedikit transparan biar estetik */
+    }
 
-@media (prefers-reduced-motion: reduce) {
-    * { animation: none !important; transition: none !important; }
+    /* Posisikan karakter atas agak ke pojok luar biar gak nabrak tombol Play Music / Headline */
+    .corner-char[style*="top"] {
+        top: 10px !important;
+    }
+    .corner-char[style*="left"] {
+        left: 5px !important;
+    }
+    .corner-char[style*="right"] {
+        right: 5px !important;
+    }
+
+    /* Karakter bawah disembunyikan khusus di HP biar gak menutupi foto/caption */
+    .corner-char[style*="bottom"] {
+        display: none !important;
+    }
+
+    /* Kerapian Tambahan untuk Mobile */
+    .glow-text { 
+        font-size: 2.2rem; 
+        padding: 0 10px;
+    }
+
+    .photos-section { 
+        padding: 0 10px; 
+    }
+
+    .photo-frame { 
+        width: 100%; 
+        max-width: 280px; 
+    }
 }
