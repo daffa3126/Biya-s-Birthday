@@ -3,58 +3,74 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.getElementById('submitWishBtn');
     const statusDiv = document.getElementById('formStatus');
 
+    if (!form) return;
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const endpoint = window.BIRTHDAY_CONFIG.wishEndpoint;
-        const name = document.getElementById('senderName').value.trim();
-        const wish = document.getElementById('wishText').value.trim();
-        const msg = document.getElementById('additionalMsg') ? document.getElementById('additionalMsg').value.trim() : '';
+        const endpoint = window.BIRTHDAY_CONFIG ? window.BIRTHDAY_CONFIG.wishEndpoint : '';
+        const wishInput = document.getElementById('wishText');
+        
+        if (!wishInput) return;
+        const wish = wishInput.value.trim();
 
-        if (!name || !wish) return;
+        if (!wish) return;
 
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Mengirim... ⏳';
-        statusDiv.textContent = '';
-        statusDiv.className = 'form-status';
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Mengirim... ⏳';
+        }
+        
+        if (statusDiv) {
+            statusDiv.textContent = '';
+            statusDiv.className = 'form-status';
+        }
 
+        // Mode Demo jika URL Endpoint belum diisi
         if (!endpoint || endpoint === "") {
             setTimeout(() => {
-                statusDiv.textContent = '✨ (Demo Mode) Wish berhasil dikirim!';
-                statusDiv.classList.add('success');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Kirim Wish 🌟';
+                if (statusDiv) {
+                    statusDiv.textContent = '✨ (Demo Mode) Wish berhasil dikirim!';
+                    statusDiv.classList.add('success');
+                }
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Kirim';
+                }
                 form.reset();
             }, 1000);
             return;
         }
 
         try {
-            const payload = JSON.stringify({
-                name: name,
-                wish: wish,
-                message: msg
-            });
+            const formData = new URLSearchParams();
+            formData.append('wish', wish);
 
-            // Kirim dengan text/plain agar tidak memicu CORS Preflight, tapi body JSON tetap terbaca Apps Script
             await fetch(endpoint, {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: {
-                    'Content-Type': 'text/plain;charset=utf-8'
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: payload
+                body: formData.toString()
             });
 
-            statusDiv.textContent = '✨ Yeay! Wish kamu berhasil dikirim.';
-            statusDiv.classList.add('success');
+            if (statusDiv) {
+                statusDiv.textContent = '✨ Yeay! Wish Biya berhasil dikirim ke Kaka!';
+                statusDiv.classList.add('success');
+            }
             form.reset();
         } catch (error) {
             console.error('Error submitting form:', error);
-            statusDiv.textContent = '❌ Oops, terjadi kesalahan jaringan. Coba lagi ya.';
-            statusDiv.classList.add('error');
+            if (statusDiv) {
+                statusDiv.textContent = '❌ Oops, jaringan bermasalah. Coba lagi ya.';
+                statusDiv.classList.add('error');
+            }
         } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Kirim Wish 🌟';
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Kirim';
+            }
         }
     });
 });
