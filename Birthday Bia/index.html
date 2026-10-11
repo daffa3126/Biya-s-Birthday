@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="sky-background"></div>
+    <div class="twinkling-stars"></div>
+    <div class="floating-clouds"></div>
+
+    <!-- Audio Player -->
+    <div class="audio-controls">
+        <button id="playAudioBtn" class="cute-btn small-btn">🎵 Play Music</button>
+        <audio id="bgMusic" loop autoplay playsinline preload="auto"></audio>
+    </div>
+
+    <!-- Hanging Ornaments -->
+    <div class="hanging-ornaments">
+        <div class="ornament star" style="left: 10%; animation-duration: 4s; animation-delay: 0s;"></div>
+        <div class="ornament moon" style="left: 30%; animation-duration: 5s; animation-delay: 1s;"></div>
+        <div class="ornament star" style="left: 50%; animation-duration: 3.5s; animation-delay: 0.5s;"></div>
+        <div class="ornament moon" style="left: 70%; animation-duration: 4.5s; animation-delay: 1.5s;"></div>
+        <div class="ornament star" style="left: 90%; animation-duration: 4s; animation-delay: 0.2s;"></div>
+    </div>
+
+    <!-- Corner Characters (Injected via JS) -->
+    <div id="corner-characters"></div>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="glow-text">Happy Birthday,<br><span id="recipient-name"></span>!</h1>
+            <p id="hero-message" class="subtitle"></p>
+            <span id="birthday-date" class="date-badge"></span>
+        </section>
+
+        <!-- 3 Photo Frames -->
+        <section class="photos-section">
+            <div class="photo-frame">
+                <img src="assets/images/biya1.jpeg" alt="Memory 1" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+1'">
+                <p id="cap-1" class="caption"></p>
+            </div>
+            <div class="photo-frame">
+                <img src="assets/images/biya3.jpeg" alt="Memory 2" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+2'">
+                <p id="cap-2" class="caption"></p>
+            </div>
+            <div class="photo-frame">
+                <img src="assets/images/biya4.jpeg" alt="Memory 3" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+3'">
+                <p id="cap-3" class="caption"></p>
+            </div>
+            <div class="photo-frame">
+                <img src="assets/images/biya5.jpeg" alt="Memory 4" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+1'">
+                <p id="cap-4" class="caption"></p>
+            </div>
+            <div class="photo-frame">
+                <img src="assets/images/biya2.jpeg" alt="Memory 5" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+2'">
+                <p id="cap-5" class="caption"></p>
+            </div>
+            <div class="photo-frame">
+                <img src="assets/images/biya6.jpeg" alt="Memory 6" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+3'">
+                <p id="cap-6" class="caption"></p>
+            </div>
+        </section>
+
+        <!-- Interactive Gift Box -->
+        <section class="gift-section">
+            <h2>PENCET INI BUNG!🎁</h2>
+            <div class="gift-box" id="giftBox">
+                <div class="gift-lid"></div>
+                <div class="gift-body"></div>
+            </div>
+        </section>
+
+        <!-- Birthday Wish Text -->
+        <section class="wish-text-section">
+            <div class="wish-card">
+                <h2 id="long-wish-title"></h2>
+                <p id="long-wish-text"></p>
+            </div>
+        </section>
+
+        <!-- Make a Wish Form -->
+        <section class="form-section">
+            <h2>Make a Wish ✨</h2>
+            <form id="wishForm" class="wish-form">
+                <div class="input-group">
+                    <label for="wishText">Apa yang bi mau dari kk?</label>
+                    <textarea id="wishText" required placeholder="Biya mau..."></textarea>
+                </div>
+                <button type="submit" class="cute-btn" id="submitWishBtn">Kirim Wish 🌟</button>
+                <div id="formStatus" class="form-status"></div>
+            </form>
+        </section>
+
+        <!-- To Fireworks Button -->
+        <section class="navigation-section">
+            <button class="cute-btn big-btn" onclick="goToFireworks()">Biya Ayo Kembang APIII! 🎆</button>
+        </section>
+    </main>
+
+    <!-- Gift Modal Popup -->
+    <div id="giftModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <img src="assets/images/cake.png" alt="Cake" class="popup-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><text y=\'50\' font-size=\'40\'>🎂</text></svg>'">
+            <h2 id="popup-title"></h2>
+            <p id="popup-message"></p>
+        </div>''
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/wishes.js"></script>
+</body>
+</html>

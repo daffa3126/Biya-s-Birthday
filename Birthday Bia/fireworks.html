@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fireworks Celebration!</title>
+    <link rel="stylesheet" href="css/fireworks.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+</head>
+<body>
+    <canvas id="fireworksCanvas"></canvas>
+
+    <div class="overlay-content">
+        <!-- Overlay awal sebelum interaksi -->
+        <div id="startScreen">
+            <button id="startBtn" class="fw-btn primary-btn">GO GO GO! 🎉</button>
+        </div>
+
+        <!-- Teks Perayaan -->
+        <div id="celebrationText" class="hidden">
+            <h1 class="glow-text-fw">HAPPY BIRTHDAY<br><span id="fw-name"></span>!</h1>
+            <p class="sub-text">Apakah ini meriah bung ✨</p>
+            
+            <div class="fw-controls">
+                <button onclick="window.location.href='index.html'" class="fw-btn">⬅ Back to Wishes</button>
+                <button id="audioToggle" class="fw-btn">⏸ Pause Music</button>
+            </div>
+            <p class="hint">Bi pencet pencet saja buat main kembang apinyah</p>
+        </div>
+    </div>
+
+    <audio id="fwMusic" loop></audio>
+
+    <script src="js/config.js"></script>
+    <script src="js/fireworks.js"></script>
+</body>
+</html>
