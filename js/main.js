@@ -1,73 +1,84 @@
 document.addEventListener('DOMContentLoaded', () => {
     const config = window.BIRTHDAY_CONFIG;
 
+    if (!config) {
+        console.error("BIRTHDAY_CONFIG belum dimuat! Pastikan config.js di-import sebelum main.js.");
+        return;
+    }
+
     // 1. Populate Text Data
-    document.getElementById('recipient-name').textContent = config.recipientName;
-    document.getElementById('hero-message').textContent = config.heroMessage;
-    document.getElementById('birthday-date').textContent = config.birthdayDate;
-    
-    document.getElementById('cap-1').textContent = config.photoCaptions[0];
-    document.getElementById('cap-2').textContent = config.photoCaptions[1];
-    document.getElementById('cap-3').textContent = config.photoCaptions[2];
-    document.getElementById('cap-4').textContent = config.photoCaptions[3];
-    document.getElementById('cap-5').textContent = config.photoCaptions[4];
-    document.getElementById('cap-6').textContent = config.photoCaptions[5];
-    
-    document.getElementById('long-wish-title').textContent = config.longWishTitle;
-    document.getElementById('long-wish-text').textContent = config.longWishText;
-    
-    document.getElementById('popup-title').textContent = config.giftPopupTitle;
-    document.getElementById('popup-message').textContent = config.giftPopupMessage;
+    const setElementText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text || '';
+    };
+
+    setElementText('recipient-name', config.recipientName);
+    setElementText('hero-message', config.heroMessage);
+    setElementText('birthday-date', config.birthdayDate);
+    setElementText('long-wish-title', config.longWishTitle);
+    setElementText('long-wish-text', config.longWishText);
+    setElementText('popup-title', config.giftPopupTitle);
+    setElementText('popup-message', config.giftPopupMessage);
+
+    // Dynamic Photo Captions (Support sampai 6 foto atau lebih)
+    if (config.photoCaptions && Array.isArray(config.photoCaptions)) {
+        config.photoCaptions.forEach((caption, index) => {
+            setElementText(`cap-${index + 1}`, caption);
+        });
+    }
 
     // 2. Inject Corner Characters
     const charContainer = document.getElementById('corner-characters');
-    Object.keys(config.characters).forEach(key => {
-        const char = config.characters[key];
-        const img = document.createElement('img');
-        img.src = char.src;
-        img.className = 'corner-char';
-        img.style.width = char.width;
-        if(char.top) img.style.top = char.top;
-        if(char.bottom) img.style.bottom = char.bottom;
-        if(char.left) img.style.left = char.left;
-        if(char.right) img.style.right = char.right;
-        
-        // Handle broken image silently
-        img.onerror = () => img.style.display = 'none';
-        charContainer.appendChild(img);
-    });
+    if (charContainer && config.characters) {
+        Object.keys(config.characters).forEach(key => {
+            const char = config.characters[key];
+            if (!char || !char.src) return;
 
-    // 3. Audio Setup
-    // Setup Audio Autoplay & Loop
+            const img = document.createElement('img');
+            img.src = char.src;
+            img.className = 'corner-char';
+            img.style.width = char.width || '100px';
+            if (char.top) img.style.top = char.top;
+            if (char.bottom) img.style.bottom = char.bottom;
+            if (char.left) img.style.left = char.left;
+            if (char.right) img.style.right = char.right;
+
+            img.onerror = () => img.style.display = 'none';
+            charContainer.appendChild(img);
+        });
+    }
+
+    // 3. Audio Setup & Autoplay Music Modal
     const audio = document.getElementById('bgMusic');
     const playBtn = document.getElementById('playAudioBtn');
+    const musicModal = document.getElementById('musicModal');
+    const startMusicBtn = document.getElementById('startMusicBtn');
 
     if (audio) {
         audio.src = config.page1Audio;
         audio.loop = true;
 
-        function playAudio() {
+        // Fungsi memutar lagu
+        const playMusicTrack = () => {
             audio.play().then(() => {
                 if (playBtn) playBtn.textContent = '⏸ Pause Music';
-            }).catch(error => {
-                console.log("Autoplay diblokir browser, menunggu interaksi pengguna...");
+            }).catch(err => {
+                console.log("Autoplay ditahan browser:", err);
+            });
+        };
+
+        // Klik tombol pada Pop-up Musik
+        if (startMusicBtn && musicModal) {
+            startMusicBtn.addEventListener('click', () => {
+                playMusicTrack();
+                musicModal.classList.remove('show');
+                setTimeout(() => {
+                    musicModal.style.display = 'none';
+                }, 300);
             });
         }
 
-        // Coba autoplay saat awal muat
-        playAudio();
-
-        // Autoplay saat pengguna pertama kali berinteraksi (klik/tap layar)
-        function enableAutoplayOnInteraction() {
-            playAudio();
-            document.removeEventListener('click', enableAutoplayOnInteraction);
-            document.removeEventListener('touchstart', enableAutoplayOnInteraction);
-        }
-
-        document.addEventListener('click', enableAutoplayOnInteraction);
-        document.addEventListener('touchstart', enableAutoplayOnInteraction);
-
-        // Toggle manual dari tombol audio
+        // Toggle manual tombol di pojok kanan atas
         if (playBtn) {
             playBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -84,33 +95,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Gift Box Interaction
     const giftBox = document.getElementById('giftBox');
-    const modal = document.getElementById('giftModal');
-    const closeBtn = document.getElementById('closeModal');
+    const giftModal = document.getElementById('giftModal');
+    const closeModal = document.getElementById('closeModal');
 
-    giftBox.addEventListener('click', () => {
-        giftBox.classList.add('open');
-        setTimeout(() => {
-            modal.classList.add('show');
-            createSparkles();
-        }, 600); // Wait for lid animation
-    });
+    if (giftBox && giftModal) {
+        giftBox.addEventListener('click', () => {
+            giftBox.classList.add('open');
+            setTimeout(() => {
+                giftModal.classList.add('show');
+                createSparkles();
+            }, 600);
+        });
 
-    closeBtn.addEventListener('click', () => {
-        modal.classList.remove('show');
-        giftBox.classList.remove('open');
-    });
-
-    window.addEventListener('click', (e) => {
-        if(e.target === modal) {
-            modal.classList.remove('show');
-            giftBox.classList.remove('open');
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                giftModal.classList.remove('show');
+                giftBox.classList.remove('open');
+            });
         }
-    });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === giftModal) {
+                giftModal.classList.remove('show');
+                giftBox.classList.remove('open');
+            }
+        });
+    }
 });
 
 // Sparkle Effect for Gift
 function createSparkles() {
-    for(let i=0; i<30; i++) {
+    for (let i = 0; i < 30; i++) {
         let sparkle = document.createElement('div');
         sparkle.style.position = 'fixed';
         sparkle.style.top = '50%';
@@ -121,11 +136,10 @@ function createSparkles() {
         sparkle.style.borderRadius = '50%';
         sparkle.style.zIndex = '1001';
         sparkle.style.pointerEvents = 'none';
-        
-        // Random velocity
+
         let vx = (Math.random() - 0.5) * 1000;
         let vy = (Math.random() - 0.5) * 1000;
-        
+
         sparkle.animate([
             { transform: 'translate(0,0) scale(1)', opacity: 1 },
             { transform: `translate(${vx}px, ${vy}px) scale(0)`, opacity: 0 }
@@ -133,7 +147,7 @@ function createSparkles() {
             duration: 1000 + Math.random() * 1000,
             easing: 'cubic-bezier(0, .9, .57, 1)'
         });
-        
+
         document.body.appendChild(sparkle);
         setTimeout(() => sparkle.remove(), 2000);
     }
@@ -141,14 +155,12 @@ function createSparkles() {
 
 // Navigation to page 2
 function goToFireworks() {
-    // Stop audio cleanly before leaving
     const audio = document.getElementById('bgMusic');
-    if(audio) audio.pause();
-    
-    // Add simple fade out class (requires inline CSS transition on body or just navigate directly)
+    if (audio) audio.pause();
+
     document.body.style.opacity = '0';
     document.body.style.transition = 'opacity 0.5s ease';
-    
+
     setTimeout(() => {
         window.location.href = 'fireworks.html';
     }, 500);

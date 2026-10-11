@@ -13,10 +13,10 @@
     <div class="twinkling-stars"></div>
     <div class="floating-clouds"></div>
 
-    <!-- Audio Player -->
+    <!-- Audio Player Controls -->
     <div class="audio-controls">
         <button id="playAudioBtn" class="cute-btn small-btn">🎵 Play Music</button>
-        <audio id="bgMusic" loop autoplay playsinline preload="auto"></audio>
+        <audio id="bgMusic" loop playsinline preload="auto"></audio>
     </div>
 
     <!-- Hanging Ornaments -->
@@ -40,7 +40,7 @@
             <span id="birthday-date" class="date-badge"></span>
         </section>
 
-        <!-- 3 Photo Frames -->
+        <!-- 6 Photo Frames -->
         <section class="photos-section">
             <div class="photo-frame">
                 <img src="assets/images/biya1.jpeg" alt="Memory 1" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+1'">
@@ -55,16 +55,28 @@
                 <p id="cap-3" class="caption"></p>
             </div>
             <div class="photo-frame">
-                <img src="assets/images/biya5.jpeg" alt="Memory 4" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+1'">
+                <img src="assets/images/biya5.jpeg" alt="Memory 4" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+4'">
                 <p id="cap-4" class="caption"></p>
             </div>
             <div class="photo-frame">
-                <img src="assets/images/biya2.jpeg" alt="Memory 5" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+2'">
+                <img src="assets/images/biya2.jpeg" alt="Memory 5" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+5'">
                 <p id="cap-5" class="caption"></p>
             </div>
             <div class="photo-frame">
-                <img src="assets/images/biya6.jpeg" alt="Memory 6" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+3'">
+                <img src="assets/images/biya6.jpeg" alt="Memory 6" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+6'">
                 <p id="cap-6" class="caption"></p>
+            </div>
+            <div class="photo-frame">
+                <img src="assets/images/biya7.jpeg" alt="Memory 4" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+4'">
+                <p id="cap-7" class="caption"></p>
+            </div>
+            <div class="photo-frame">
+                <img src="assets/images/biya8.jpeg" alt="Memory 5" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+5'">
+                <p id="cap-8" class="caption"></p>
+            </div>
+            <div class="photo-frame">
+                <img src="assets/images/biya9.jpeg" alt="Memory 6" onerror="this.src='https://via.placeholder.com/300x300/07152F/FFD76A?text=Photo+6'">
+                <p id="cap-9" class="caption"></p>
             </div>
         </section>
 
@@ -87,7 +99,7 @@
 
         <!-- Make a Wish Form -->
         <section class="form-section">
-            <h2>Make a Wish ✨</h2>
+            <h2>Kau mau apa bung bung bung ✨</h2>
             <form id="wishForm" class="wish-form">
                 <div class="input-group">
                     <label for="wishText">Apa yang bi mau dari kk?</label>
@@ -111,7 +123,17 @@
             <img src="assets/images/cake.png" alt="Cake" class="popup-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><text y=\'50\' font-size=\'40\'>🎂</text></svg>'">
             <h2 id="popup-title"></h2>
             <p id="popup-message"></p>
-        </div>''
+        </div>
+    </div>
+
+    <!-- Music Permission Pop-up Modal -->
+    <div id="musicModal" class="modal show">
+        <div class="modal-content music-pop-content">
+            <div class="music-icon-animated">🎵</div>
+            <h2>Musik miaw miaw</h2>
+            <p>Ayo putar dulu musiknya bungg!</p>
+            <button id="startMusicBtn" class="cute-btn big-btn">Go Go 🎵</button>
+        </div>
     </div>
 
     <script src="js/config.js"></script>
