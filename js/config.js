@@ -19,6 +19,12 @@ window.BIRTHDAY_CONFIG = {
         "Ini kau KAMPUNGAN",
         "Ini kau munyo sekali",
         "Ini kau kkn bung",
+        "Ini biya sekolah yagi!",
+        "III MUNYO SEKALI",
+        "Ini kau mamam lusyu",
+        "Ini kau berhitung hari magang",
+        "HEY INI KAKA DAN BIA MUNYO",
+        "kau narsis bung",
     ],
 
     // 4. Kado Popup
